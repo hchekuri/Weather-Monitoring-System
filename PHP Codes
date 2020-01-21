@@ -1,0 +1,57 @@
+DatabaseConfig.php:
+<?php
+//Define your host here.
+$HostName = "localhost";
+//Define your database username here.
+$HostUser = "root";
+//Define your database password here.
+$HostPass = "batch1";
+//Define your database name here.
+$DatabaseName = "temp_database";
+?>
+
+
+Get_data.php:
+<?php
+include 'DatabaseConfig.php' ;
+ $con = mysqli_connect($HostName,$HostUser,$HostPass,$DatabaseName);
+ $name = $_POST['name'];
+ $Sql_Query = "insert into temp (name) values ('$name')";
+ if(mysqli_query($con,$Sql_Query)){
+ echo 'Data Submit Successfully';
+ }
+ else{
+ echo 'Try Again';
+ }
+ mysqli_close($con);
+?>
+
+
+SubjectFullForm.php:
+<?php include 'DatabaseConfig.php';
+// Create connection
+$conn = new mysqli($HostName, $HostUser, $HostPass, $DatabaseName);
+if ($conn->connect_error) {
+ die("Connection failed: " . $conn->connect_error);
+}
+$sql1="SELECT id,name from temp ORDER BY id DESC LIMIT 1;";
+$result1 = $conn->query($sql1);
+while($row1 = $result1->fetch_assoc())
+{
+      $new=$row1["name"];
+}
+$sql = "SELECT * FROM templog where datetime like '$new%'";
+$result = $conn->query($sql);
+if ($result->num_rows >0) {
+ while($row[] = $result->fetch_assoc()) {
+ $tem = $row;
+ $json = json_encode($tem);
+}
+} else {
+ echo "No Results Found.";
+}
+ echo $json;
+$conn->close();
+?>
+
+
