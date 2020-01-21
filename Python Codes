@@ -1,0 +1,49 @@
+temp.py:
+//This is the Python code to get readings from DHT-11 Sensor
+import Adafruit_DHT
+while True:
+humidity, temperature = Adafruit_DHT.read_retry(11, 27)  # GPIO27 (BCM notation)
+print ("Humidity = {} %; Temperature = {} C".format(humidity, temperature))
+
+read.py:
+//This code is to store the values in MySQL database in tabular form.
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import RPi.GPIO as GPIO
+import time
+import sys
+import Adafruit_DHT
+import MySQLdb
+import datetime
+from datetime import datetime
+from pytz import timezone
+conn=MySQLdb.connect(host="localhost",user="root",passwd="batch1",db="temp_database")
+c=conn.cursor()
+def dhtreading_witesql():
+sensor_args = { '11': Adafruit_DHT.DHT11,
+                                '22': Adafruit_DHT.DHT22,
+                                '2302': Adafruit_DHT.AM2302 }
+if len(sys.argv) == 3 and sys.argv[1] in sensor_args:
+sensor = sensor_args[sys.argv[1]]
+pin = sys.argv[2]
+else:
+print('usage: sudo ./Adafruit_DHT.py [11|22|2302] GPIOpin#')
+sys.exit(1)
+humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+if humidity is not None and temperature is not None:
+print('Temperature={0:0.1f}°C Humidity={1:0.1f}%'.format(temperature, humidity))
+else:
+print('Failed to get reading. Try again!')
+sys.exit(1)
+fmt="%Y-%m-%d %H:%M:%S"
+now_utc=datetime.now(timezone('UTC'))
+now_asia=now_utc.astimezone(timezone('Asia/Kolkata'))
+date=now_asia.strftime(fmt)
+c.execute("INSERT INTO templog (datetime, humidity, temperature) VALUES (%s, %s, %s)",(date, humidity, temperature))
+conn.commit()
+for i in range(1):
+dhtreading_witesql()
+c.close
+conn.close()
+
+
