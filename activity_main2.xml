@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".nextMainActivity">
+
+    <TextView
+        android:id="@+id/SubjectFullFormPageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp Humidity and time"
+        android:textColor="#429ed7"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="temp:black humidity:blue"
+        />
+    <ListView
+        android:id="@+id/SubjectFullFormListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:layout_marginTop="10dp">
+    </ListView>
+
+    <ProgressBar
+        android:id="@+id/ProgressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/borderView"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#429ed7"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/SubjectFullFormPageTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</LinearLayout>
